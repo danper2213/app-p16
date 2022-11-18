@@ -109,4 +109,17 @@ class ProductController extends GetxController {
     }
     foundProducts.value = results;
   }
+
+  @override
+  void onClose() {
+    print('Sali de homelist');
+    // TODO: implement onClose
+    super.onClose();
+  }
+
+  @override
+  void dispose() {
+    print('Sali de homelist');
+    super.dispose();
+  }
 }

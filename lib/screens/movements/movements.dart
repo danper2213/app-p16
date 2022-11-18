@@ -24,7 +24,7 @@ class Movements extends StatelessWidget {
               'Movimientos',
               style: GoogleFonts.roboto(
                   color: Colors.white,
-                  fontSize: 24.0,
+                  fontSize: 20.0,
                   fontWeight: FontWeight.w800),
             ),
             const Spacer(),

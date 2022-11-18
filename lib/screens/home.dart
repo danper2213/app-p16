@@ -1,6 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:app_p16/controllers/home_controller.dart';
-import 'package:app_p16/screens/product/add_product.dart';
 
 import 'package:app_p16/screens/movements/movements.dart';
 import 'package:app_p16/screens/product/products_list.dart';
@@ -8,9 +7,11 @@ import 'package:app_p16/screens/reports.dart';
 import 'package:app_p16/widgets/theme_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:app_p16/controllers/auth_controller.dart';
+import 'package:flutter_animate/effects/effects.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_animate/animate.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -33,7 +34,10 @@ class _HomeState extends State<Home> {
               'assets/logotipo.png',
               width: 45,
               height: 45,
-            ),
+            )
+                .animate()
+                .fade(duration: const Duration(milliseconds: 500))
+                .scale(delay: const Duration(milliseconds: 500)),
             centerTitle: true,
             backgroundColor: ThemeCustom.primarySwatch,
             elevation: 0,
@@ -75,14 +79,12 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: Text(
-                        'Fecha: ' + getDateFormat(),
-                        style: GoogleFonts.roboto(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w300),
-                      ),
+                    Text(
+                      'Fecha: ' + getDateFormat(),
+                      style: GoogleFonts.roboto(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300),
                     )
                   ],
                 ),

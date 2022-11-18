@@ -112,6 +112,7 @@ class _AddMovementState extends State<AddMovement> {
             controller: quantityController,
             autofocus: true,
             keyboardType: TextInputType.number,
+            style: const TextStyle(color: Colors.white),
           ),
           const SizedBox(
             height: 4,

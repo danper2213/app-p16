@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:app_p16/controllers/movements_controller.dart';
 import 'package:app_p16/controllers/product_controller.dart';
 import 'package:app_p16/models/product.dart';
+import 'package:app_p16/screens/home.dart';
 import 'package:app_p16/screens/movements/add_movement.dart';
 import 'package:app_p16/screens/product/edit_product.dart';
 import 'package:app_p16/widgets/theme_custom.dart';
@@ -44,7 +45,7 @@ class DetailProduct extends StatelessWidget {
                         children: [
                           Positioned(
                             child: GestureDetector(
-                              onTap: (() => Get.back()),
+                              onTap: (() => Get.off(() => Home())),
                               child: const Icon(
                                 Icons.arrow_back,
                                 size: 24,
