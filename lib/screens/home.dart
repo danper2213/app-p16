@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:app_p16/controllers/home_controller.dart';
 
 import 'package:app_p16/screens/movements/movements.dart';
@@ -55,41 +54,36 @@ class _HomeState extends State<Home> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: Row(
-                        children: [
-                          Text(
-                            '¡Hola, ',
-                            style: GoogleFonts.roboto(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w500),
+                    Row(
+                      children: [
+                        Text(
+                          '¡Hola, ${_authController.userProfile!.displayName!.toString()}!',
+                          style: TextStyleCustom.regular18(
+                            fontWeight: FontWeight.bold,
                           ),
-                          DefaultTextStyle(
-                            style: TextStyleCustom.regular20(),
-                            child: AnimatedTextKit(
-                              animatedTexts: [
-                                WavyAnimatedText(
-                                  '${_authController.userProfile!.displayName!.toString()}!',
-                                )
-                              ],
-                            ),
+                        ),
+                        /* DefaultTextStyle(
+                          style: TextStyleCustom.regular20(),
+                          child: AnimatedTextKit(
+                            animatedTexts: [
+                              WavyAnimatedText(
+                                '${_authController.userProfile!.displayName!.toString()}!',
+                              )
+                            ],
                           ),
-                        ],
-                      ),
+                        ), */
+                      ],
                     ),
                     Text(
                       'Fecha: ' + getDateFormat(),
-                      style: GoogleFonts.roboto(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w300),
+                      style: TextStyleCustom.regular16(
+                        fontWeight: FontWeight.w300,
+                      ),
                     )
                   ],
                 ),
                 const SizedBox(
-                  height: 30.0,
+                  height: 20.0,
                 ),
                 Expanded(
                   child: IndexedStack(index: controller.tabIndex, children: [

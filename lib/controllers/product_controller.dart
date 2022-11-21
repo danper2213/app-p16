@@ -5,11 +5,10 @@ import 'package:app_p16/models/product.dart';
 import 'package:app_p16/screens/home.dart';
 
 import 'package:app_p16/services/firestore.dart';
-import 'package:app_p16/widgets/get_snackbar.dart';
+
 import 'package:app_p16/widgets/utils.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/animation.dart';
-import 'package:flutter/material.dart';
+
 import 'package:image_cropper/image_cropper.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -18,6 +17,7 @@ import 'package:get/get.dart';
 class ProductController extends GetxController {
   final productsList = <Product>[].obs;
   final foundProducts = <Product>[].obs;
+  RxBool editProduct = true.obs;
 
   get totalP => totalCostPrice();
 
@@ -33,6 +33,10 @@ class ProductController extends GetxController {
   void onInit() {
     fetchAllProduct();
     super.onInit();
+  }
+
+  void changeEditStatus(bool value) {
+    editProduct.value = value;
   }
 
   totalCostPrice() {
@@ -108,18 +112,5 @@ class ProductController extends GetxController {
           .toList();
     }
     foundProducts.value = results;
-  }
-
-  @override
-  void onClose() {
-    print('Sali de homelist');
-    // TODO: implement onClose
-    super.onClose();
-  }
-
-  @override
-  void dispose() {
-    print('Sali de homelist');
-    super.dispose();
   }
 }

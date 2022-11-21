@@ -1,6 +1,8 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:app_p16/controllers/product_controller.dart';
 import 'package:app_p16/screens/product/detail_product.dart';
 import 'package:app_p16/widgets/theme_custom.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,32 +18,32 @@ class ProductList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
+      const SizedBox(
+        height: 10,
+      ),
       Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 9.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
                 Text('Total Productos',
-                    style: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w300)),
+                    style: TextStyleCustom.regular16(
+                      fontWeight: FontWeight.w300,
+                    )),
                 Obx((() => Text(productController.totalProducts.toString(),
-                    style: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.w800))))
+                    style: TextStyleCustom.regular20(
+                      fontWeight: FontWeight.bold,
+                    ))))
               ],
             ),
             Column(
               children: [
                 Text('Saldo total',
-                    style: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w300)),
+                    style: TextStyleCustom.regular16(
+                      fontWeight: FontWeight.w300,
+                    )),
                 Obx((() => Text('\$ ${productController.totalP}',
                     style: GoogleFonts.roboto(
                         color: Colors.white,
@@ -51,13 +53,25 @@ class ProductList extends StatelessWidget {
             ),
           ],
         ),
-        height: 80.0,
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color(0xFF0575E6),
-              Color(0xFF021B79),
-            ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-            borderRadius: BorderRadius.all(Radius.circular(8.0))),
+        height: 70.0,
+        decoration: ThemeCustom.buildGradiente(),
+      ),
+      const SizedBox(
+        height: 20,
+      ),
+      SizedBox(
+        height: 20,
+        child: DefaultTextStyle(
+          style: TextStyleCustom.regular18(),
+          child: AnimatedTextKit(
+            repeatForever: true,
+            animatedTexts: [
+              RotateAnimatedText('¡Realiza movimientos de productos!'),
+              RotateAnimatedText('¡Consulta los movimientos!'),
+              RotateAnimatedText('¡Genera reportes de producto!'),
+            ],
+          ),
+        ),
       ),
       const SizedBox(
         height: 20,
@@ -66,10 +80,12 @@ class ProductList extends StatelessWidget {
         autofocus: false,
         onChanged: (value) => productController.filterProduct(value),
         decoration: InputDecoration(
-            label: const Text(
-              'Buscar Producto',
-              style: TextStyle(color: Colors.white),
-            ),
+            label: AnimatedTextKit(animatedTexts: [
+              TyperAnimatedText(
+                'Buscar producto',
+                speed: const Duration(milliseconds: 100),
+              )
+            ]),
             focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: Colors.white),
                 borderRadius: BorderRadius.circular(16.0)),
@@ -102,7 +118,7 @@ class ListProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('list');
+    print('List products');
     return Expanded(
       child: Obx(() => productController.foundProducts.isEmpty
           ? Column(
@@ -145,11 +161,24 @@ class ListProduct extends StatelessWidget {
                             child: ListTile(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16)),
-                              leading: Image.network(
+                              leading: CachedNetworkImage(
+                                height: 50,
+                                width: 50,
+                                placeholder: (context, url) => Lottie.asset(
+                                  'assets/downloading.json',
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.fill,
+                                ),
+                                imageUrl: productController
+                                    .foundProducts[index].urlImage,
+                              ),
+
+                              /* Image.network(
                                 productController.foundProducts[index].urlImage,
                                 height: 50,
                                 width: 50,
-                              ),
+                              ), */
                               title: Text(
                                   productController.foundProducts[index].name,
                                   style: GoogleFonts.roboto(
@@ -157,20 +186,28 @@ class ListProduct extends StatelessWidget {
                                       color: Colors.white,
                                       fontSize: 20.0,
                                       fontWeight: FontWeight.w800)),
-                              subtitle: Text(
-                                  'Cantidad: ' +
-                                      productController
-                                          .foundProducts[index].quantity
-                                          .toString(),
-                                  style: GoogleFonts.roboto(
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w400)),
+                              subtitle: (productController
+                                          .foundProducts[index].quantity ==
+                                      0)
+                                  ? Text(
+                                      'Producto sin existencia',
+                                      style: TextStyleCustom.regular16(
+                                          color: Colors.redAccent),
+                                    )
+                                  : Text(
+                                      'Cantidad: ' +
+                                          productController
+                                              .foundProducts[index].quantity
+                                              .toString(),
+                                      style: GoogleFonts.roboto(
+                                          color: Colors.white,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w400)),
                               tileColor: Colors.transparent,
                               trailing: const Icon(
-                                Icons.keyboard_arrow_right_rounded,
+                                Icons.arrow_circle_right_sharp,
                                 color: ColorCustom.marineBlue,
-                                size: 40.0,
+                                size: 25.0,
                               ),
                             ),
                           ),

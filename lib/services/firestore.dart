@@ -115,23 +115,17 @@ class Firestore {
       Product product, int quantity, String type) async {
     CollectionReference products = _firebaseFirestore.collection('products');
     var totalDB = totalQuantity(product.quantity, quantity, type);
-    if (totalDB != 0) {
-      await products
-          .doc(product.id)
-          .update({'quantity': totalDB}).then((value) {
-        getSnack(
-            '¡Movimiento exitoso!',
-            'Se ha realizado el movimiento exitoso de ${product.name}',
-            const Color.fromRGBO(0, 150, 199, 1),
-            Icons.check_circle_outline_rounded);
-        Future.delayed(const Duration(seconds: 3), () {
-          Get.to(() => Home());
-        });
+
+    await products.doc(product.id).update({'quantity': totalDB}).then((value) {
+      getSnack(
+          '¡Movimiento exitoso!',
+          'Se ha realizado el movimiento exitoso de ${product.name}',
+          const Color.fromRGBO(0, 150, 199, 1),
+          Icons.check_circle_outline_rounded);
+      Future.delayed(const Duration(seconds: 3), () {
+        Get.offAll(() => const Home());
       });
-    } else {
-      getSnack('¡Error de movimiento!', 'No es posible realizar el movimiento',
-          Colors.red, Icons.error_outline_rounded);
-    }
+    });
   }
 
   int totalQuantity(int actualQuantity, int newQuanity, String type) {

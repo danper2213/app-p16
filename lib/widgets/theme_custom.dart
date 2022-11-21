@@ -59,6 +59,15 @@ class ThemeCustom {
           return ColorCustom.marineBlue;
         }),
       )));
+
+  static buildGradiente() {
+    return const BoxDecoration(
+        gradient: LinearGradient(colors: [
+          Color(0xFF0575E6),
+          Color(0xFF021B79),
+        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+        borderRadius: BorderRadius.all(Radius.circular(8.0)));
+  }
 }
 
 class ColorCustom {
@@ -71,26 +80,26 @@ class ColorCustom {
 class TextStyleCustom {
   TextStyleCustom._();
 
-  static TextStyle regular18({Color? color, FontWeight? fontWeight}) {
-    return TextStyle(
-      fontSize: 18.0,
-      fontWeight: fontWeight ?? FontWeight.bold,
-      color: color ?? ColorCustom.whiteColor,
-    );
-  }
-
-  static TextStyle regular20({Color? color}) {
-    return TextStyle(
-      fontSize: 20.0,
-      fontWeight: FontWeight.bold,
-      color: color ?? ColorCustom.whiteColor,
-    );
-  }
-
-  static TextStyle regular16({Color? color}) {
-    return TextStyle(
+  static TextStyle regular16({Color? color, FontWeight? fontWeight}) {
+    return GoogleFonts.roboto(
       fontSize: 16.0,
-      fontWeight: FontWeight.normal,
+      fontWeight: fontWeight,
+      color: color ?? ColorCustom.whiteColor,
+    );
+  }
+
+  static TextStyle regular18({Color? color, FontWeight? fontWeight}) {
+    return GoogleFonts.roboto(
+      color: color ?? ColorCustom.whiteColor,
+      fontSize: 18,
+      fontWeight: fontWeight,
+    );
+  }
+
+  static TextStyle regular20({Color? color, FontWeight? fontWeight}) {
+    return GoogleFonts.roboto(
+      fontSize: 20.0,
+      fontWeight: fontWeight,
       color: color ?? ColorCustom.whiteColor,
     );
   }

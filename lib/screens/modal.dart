@@ -20,7 +20,7 @@ class Modal extends StatelessWidget {
             //tileColor: Color.fromRGBO(0, 150, 199, 0.3),
             textColor: Colors.white,
             onTap: () {
-              Get.to(() => AddProduct());
+              Get.to(() => const AddProduct());
             },
           ),
           ListTile(

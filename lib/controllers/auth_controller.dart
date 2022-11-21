@@ -1,6 +1,7 @@
 import 'package:app_p16/screens/signInOut/login.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -32,6 +33,11 @@ class AuthController extends GetxController {
             style: const TextStyle(color: Colors.white),
           ));
     }
+  }
+
+  @override
+  void onReady() {
+    FlutterNativeSplash.remove();
   }
 
   void login(String email, String password) async {

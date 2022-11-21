@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:app_p16/controllers/product_controller.dart';
 import 'package:app_p16/models/product.dart';
-import 'package:app_p16/widgets/text_custom.dart';
+
 import 'package:app_p16/widgets/theme_custom.dart';
 
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddProduct extends StatefulWidget {
-  AddProduct({Key? key}) : super(key: key);
+  const AddProduct({Key? key}) : super(key: key);
 
   @override
   State<AddProduct> createState() => _AddProductState();

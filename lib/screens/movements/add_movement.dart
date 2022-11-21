@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddMovement extends StatefulWidget {
-  AddMovement({Key? key, required this.product}) : super(key: key);
+  const AddMovement({Key? key, required this.product}) : super(key: key);
 
   final Product product;
 

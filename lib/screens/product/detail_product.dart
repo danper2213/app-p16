@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:app_p16/controllers/movements_controller.dart';
 import 'package:app_p16/controllers/product_controller.dart';
 import 'package:app_p16/models/product.dart';
@@ -6,19 +5,28 @@ import 'package:app_p16/screens/home.dart';
 import 'package:app_p16/screens/movements/add_movement.dart';
 import 'package:app_p16/screens/product/edit_product.dart';
 import 'package:app_p16/widgets/theme_custom.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 class DetailProduct extends StatelessWidget {
-  final productController = Get.put(ProductController());
-  final movementController = Get.put(MovementsController());
   final Product product;
   DetailProduct({Key? key, required this.product}) : super(key: key);
 
+  final productController = Get.put(ProductController());
+
+  final movementController = Get.put(MovementsController());
+
   @override
   Widget build(BuildContext context) {
+    /*  SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.immersive,
+      overlays: [SystemUiOverlay.top],
+    ); */
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -45,7 +53,7 @@ class DetailProduct extends StatelessWidget {
                         children: [
                           Positioned(
                             child: GestureDetector(
-                              onTap: (() => Get.off(() => Home())),
+                              onTap: (() => Get.offAll(() => const Home())),
                               child: const Icon(
                                 Icons.arrow_back,
                                 size: 24,
@@ -55,7 +63,26 @@ class DetailProduct extends StatelessWidget {
                             top: 20,
                           ),
                           Positioned(
+                            //Edit product
                             child: GestureDetector(
+                              child: Obx(() {
+                                return productController.editProduct.value
+                                    ? const Icon(
+                                        Icons.edit,
+                                        size: 24,
+                                      )
+                                    : const Icon(
+                                        Icons.done_outline_rounded,
+                                        size: 24,
+                                      );
+                              }),
+                              onTap: () {
+                                productController.changeEditStatus(
+                                    !productController.editProduct.value);
+                              },
+                            ),
+
+                            /* GestureDetector(
                               onTap: (() => {
                                     Get.to(() => EditProduct(product: product))
                                   }),
@@ -63,7 +90,7 @@ class DetailProduct extends StatelessWidget {
                                 Icons.edit,
                                 size: 24,
                               ),
-                            ),
+                            ), */
                             right: 60,
                             top: 20,
                           ),
@@ -91,11 +118,22 @@ class DetailProduct extends StatelessWidget {
                             top: 70,
                           ),
                           Positioned(
-                            child: Image.network(
+                            child: /* Image.network(
                               product.urlImage,
                               fit: BoxFit.contain,
                               width: 250,
                               height: 200,
+                            ), */
+                                CachedNetworkImage(
+                              height: 200,
+                              width: 250,
+                              placeholder: (context, url) => Lottie.asset(
+                                'assets/downloading.json',
+                                width: 30,
+                                height: 30,
+                                fit: BoxFit.fill,
+                              ),
+                              imageUrl: product.urlImage,
                             ),
                             left: 70,
                             top: 110,
@@ -117,60 +155,70 @@ class DetailProduct extends StatelessWidget {
               //     totalRepeatCount: 1,
               //   ),
               // ),
-              Text(
-                'Detalle Producto',
-                style: GoogleFonts.roboto(
-                    color: Colors.white,
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold),
-              ),
+
               Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-                  child: Column(
-                    children: [
-                      const Divider(
-                        color: Colors.white,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      DetailBox(product: product),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        child: ElevatedButton.icon(
-                            onPressed: (() {
-                              showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  barrierColor: ThemeCustom.primarySwatch
-                                      .withOpacity(0.5),
-                                  backgroundColor: ThemeCustom.primarySwatch,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(30),
-                                    topLeft: Radius.circular(30),
-                                  )),
-                                  context: context,
-                                  builder: (context) {
-                                    return AddMovement(product: product);
-                                  });
-                              //Get.to(() => AddMovement(product: product));
-                            }),
-                            icon: const Icon(Icons.move_down_rounded),
-                            label: Text(
-                              'Realizar Movimiento',
-                              style: GoogleFonts.roboto(
-                                  color: Colors.white,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                      )
-                    ],
-                  ))
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Obx(() {
+                    return productController.editProduct.value
+                        ? Column(
+                            children: [
+                              Text(
+                                'Detalle Producto',
+                                style: GoogleFonts.roboto(
+                                    color: Colors.white,
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              const Divider(
+                                color: Colors.white,
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              DetailBox(product: product),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: 50,
+                                child: ElevatedButton.icon(
+                                    onPressed: (() {
+                                      showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          barrierColor: ThemeCustom
+                                              .primarySwatch
+                                              .withOpacity(0.5),
+                                          backgroundColor:
+                                              ThemeCustom.primarySwatch,
+                                          shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(30),
+                                            topLeft: Radius.circular(30),
+                                          )),
+                                          context: context,
+                                          builder: (context) {
+                                            return AddMovement(
+                                                product: product);
+                                          });
+                                      //Get.to(() => AddMovement(product: product));
+                                    }),
+                                    icon: const Icon(Icons.move_down_rounded),
+                                    label: Text(
+                                      'Realizar Movimiento',
+                                      style: GoogleFonts.roboto(
+                                          color: Colors.white,
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                              )
+                            ],
+                          )
+                        : EditProduct(product: product);
+                  }))
             ],
           ),
         ),

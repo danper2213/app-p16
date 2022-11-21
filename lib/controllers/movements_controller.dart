@@ -1,6 +1,5 @@
 import 'package:app_p16/models/movement.dart';
 import 'package:app_p16/models/product.dart';
-import 'package:app_p16/screens/home.dart';
 
 import 'package:app_p16/services/firestore.dart';
 import 'package:app_p16/widgets/get_snackbar.dart';
@@ -33,13 +32,15 @@ class MovementsController extends GetxController {
 
   void addMovement(Movement movement, Product product) async {
     //print('${movement.quantity} y ${product.quantity}');
+    final total = product.quantity - movement.quantity;
+    print('${total < 0}');
 
-    if (movement.quantity > product.quantity && movement.type == 'Salida') {
-      getSnack('¡Error de movimiento!', 'No es posible realizar el movimiento',
-          Colors.red, Icons.cancel_outlined);
-    } else if (movement.quantity == 0) {
-      getSnack('¡Error de movimiento!', 'No es posible realizar el movimiento',
-          Colors.red, Icons.cancel_outlined);
+    if (total < 0 && movement.type == 'Salida') {
+      getSnack(
+          '¡Error de movimiento!',
+          'No es posible realizar el movimiento...',
+          Colors.red,
+          Icons.cancel_outlined);
     } else {
       loadingMovement.value = true;
       await Firestore().addMovement(movement, product);
