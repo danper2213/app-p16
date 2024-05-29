@@ -5,6 +5,7 @@ import 'package:app_p16/models/product.dart';
 import 'package:app_p16/screens/home.dart';
 import 'package:app_p16/widgets/get_date_format.dart';
 import 'package:app_p16/widgets/get_snackbar.dart';
+import 'package:app_p16/widgets/theme_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -44,6 +45,24 @@ class Firestore {
     });
   }
 
+  Stream<List<Movement>> getAllMovementsByProduct(
+    String name,
+    String initialDate,
+    String finalDate,
+  ) {
+    return _firebaseFirestore
+        .collection('movements')
+        .where('created_date', isGreaterThanOrEqualTo: initialDate)
+        .where('created_date', isLessThanOrEqualTo: finalDate)
+        .where('name', isEqualTo: name)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.isEmpty
+          ? []
+          : snapshot.docs.map((doc) => Movement.fromSnapshot(doc)).toList();
+    });
+  }
+
   Future uploadImage(String path, File file, Product product) async {
     final ref = FirebaseStorage.instance.ref().child(path);
     UploadTask uploadTask = ref.putFile(file);
@@ -52,6 +71,7 @@ class Firestore {
       url = await ref.getDownloadURL();
       product.urlImage = url;
       await addProduct(product);
+      // ignore: body_might_complete_normally_catch_error
     }).catchError((error) {
       getSnack('¡Ocurrio un error!', 'La imagen no pudo subir',
           Colors.redAccent, Icons.error_outline_rounded);
@@ -66,7 +86,7 @@ class Firestore {
         .then((value) => getSnack(
             '¡Producto exitosamente agregado!',
             'El producto ha sido agregado correctamente',
-            const Color.fromRGBO(0, 150, 199, 1),
+            ColorCustom.marineBlue,
             Icons.check_circle_outline_rounded))
         .catchError((onError) => getSnack(
             '¡Ocurrio un error!',
@@ -76,16 +96,20 @@ class Firestore {
   }
 
   Future<void> updateProduct(
-      Product product, String category, int costPrice) async {
+      Product product, String name, String category, int costPrice) async {
     final docProduct =
         _firebaseFirestore.collection('products').doc(product.id);
     //product.id = docProduct.id;
     await docProduct
-        .update(<String, dynamic>{'category': category, 'costPrice': costPrice})
+        .update(<String, dynamic>{
+          'name': name,
+          'category': category,
+          'costPrice': costPrice
+        })
         .then((value) => getSnack(
-            '¡Producto exitosamente agregado!',
-            'El producto ha sido agregado correctamente',
-            const Color.fromRGBO(0, 150, 199, 1),
+            '¡Producto exitosamente actualizado!',
+            'El producto ha sido actualizado correctamente',
+            ColorCustom.marineBlue,
             Icons.check_circle_outline_rounded))
         .catchError((onError) => getSnack('¡Ocurrio un error! &', '$onError ',
             Colors.redAccent, Icons.error_outline_rounded));
@@ -99,7 +123,7 @@ class Firestore {
         .then((value) => getSnack(
             '¡Producto exitosamente eliminado!',
             'El producto ha sido elimiado correctamente',
-            const Color.fromRGBO(0, 150, 199, 1),
+            ColorCustom.marineBlue,
             Icons.check_circle_outline_rounded))
         .catchError((onError) => getSnack('¡Ocurrio un error! &', '$onError ',
             Colors.redAccent, Icons.error_outline_rounded));
@@ -120,7 +144,7 @@ class Firestore {
       getSnack(
           '¡Movimiento exitoso!',
           'Se ha realizado el movimiento exitoso de ${product.name}',
-          const Color.fromRGBO(0, 150, 199, 1),
+          ColorCustom.marineBlue,
           Icons.check_circle_outline_rounded);
       Future.delayed(const Duration(seconds: 3), () {
         Get.offAll(() => const Home());

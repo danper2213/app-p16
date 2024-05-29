@@ -8,11 +8,11 @@ class SignUp extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  SignUp({Key? key}) : super(key: key);
+  SignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _authController = Get.put<AuthController>(AuthController());
+    final authController = Get.put<AuthController>(AuthController());
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -117,18 +117,18 @@ class SignUp extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () => {
-                      _authController.signUp(
+                      authController.signUp(
                           nameController.text.trim(),
                           emailController.text.trim(),
                           passwordController.text.trim())
                     },
-                    child: const Text("Registrarse"),
                     style: TextButton.styleFrom(
                       textStyle: const TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
+                    child: const Text("Registrarse"),
                   ),
                 ),
               ],

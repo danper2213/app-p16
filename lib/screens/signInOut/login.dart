@@ -1,6 +1,7 @@
 import 'package:app_p16/controllers/auth_controller.dart';
 
 import 'package:app_p16/screens/signInOut/sign_up.dart';
+import 'package:app_p16/widgets/theme_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +12,7 @@ class Login extends StatelessWidget {
   final AuthController _authController =
       Get.put<AuthController>(AuthController());
 
-  Login({Key? key}) : super(key: key);
+  Login({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class Login extends StatelessWidget {
                 ),
                 Text(
                   '¡Hola, Bienvenido a Inventario P16!',
-                  style: GoogleFonts.roboto(
+                  style: GoogleFonts.kanit(
                       color: Colors.white,
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold),
@@ -121,7 +122,11 @@ class Login extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () => {Get.to(() => SignUp())},
-                      child: const Text('Registrate'),
+                      child: Text(
+                        'Registrate',
+                        style: TextStyleCustom.kanitFont(
+                            size: 14, color: ColorCustom.marineBlue),
+                      ),
                     ),
                   ],
                 ),

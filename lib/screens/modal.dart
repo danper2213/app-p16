@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Modal extends StatelessWidget {
-  Modal({Key? key}) : super(key: key);
+  Modal({super.key});
   final TextEditingController quantityController = TextEditingController();
 
   @override

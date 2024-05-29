@@ -5,56 +5,88 @@ import 'package:app_p16/widgets/theme_custom.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
-class ProductList extends StatelessWidget {
+class ProductList extends StatefulWidget {
+  const ProductList({super.key});
+
+  @override
+  State<ProductList> createState() => _ProductListState();
+}
+
+class _ProductListState extends State<ProductList> {
   final productController = Get.put(ProductController());
   final TextEditingController searchController = TextEditingController();
+  bool iskeyboardVisible = false;
 
-  ProductList({Key? key}) : super(key: key);
+  @override
+  void dispose() {
+    searchController.clear();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '¡Hola, ${productController.authController.userProfile!.displayName!.toString()}!',
+            style: TextStyleCustom.kanitFont(
+              fontWeight: FontWeight.bold,
+              size: 18,
+            ),
+          ),
+          Text(
+            'Fecha: ${productController.getDateFormat()}',
+            style: TextStyleCustom.kanitFont(
+              size: 18,
+            ),
+          )
+        ],
+      ),
       const SizedBox(
-        height: 10,
+        height: 20,
       ),
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 9.0),
+        height: MediaQuery.of(context).size.height * 0.10,
+        decoration: ThemeCustom.buildGradiente(
+            borderRadius: const BorderRadius.all(Radius.circular(8.0))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
                 Text('Total Productos',
-                    style: TextStyleCustom.regular16(
-                      fontWeight: FontWeight.w300,
+                    style: TextStyleCustom.kanitFont(
+                      size: 18,
                     )),
                 Obx((() => Text(productController.totalProducts.toString(),
-                    style: TextStyleCustom.regular20(
+                    style: TextStyleCustom.kanitFont(
                       fontWeight: FontWeight.bold,
+                      size: 20,
                     ))))
               ],
             ),
             Column(
               children: [
                 Text('Saldo total',
-                    style: TextStyleCustom.regular16(
-                      fontWeight: FontWeight.w300,
+                    style: TextStyleCustom.kanitFont(
+                      size: 18,
                     )),
                 Obx((() => Text('\$ ${productController.totalP}',
-                    style: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.w800))))
+                    style: TextStyleCustom.kanitFont(
+                      size: 20,
+                      fontWeight: FontWeight.bold,
+                    ))))
               ],
             ),
           ],
         ),
-        height: 70.0,
-        decoration: ThemeCustom.buildGradiente(),
       ),
       const SizedBox(
         height: 20,
@@ -62,7 +94,9 @@ class ProductList extends StatelessWidget {
       SizedBox(
         height: 20,
         child: DefaultTextStyle(
-          style: TextStyleCustom.regular18(),
+          style: TextStyleCustom.kanitFont(
+            size: 16,
+          ),
           child: AnimatedTextKit(
             repeatForever: true,
             animatedTexts: [
@@ -76,29 +110,34 @@ class ProductList extends StatelessWidget {
       const SizedBox(
         height: 20,
       ),
-      TextFormField(
-        autofocus: false,
-        onChanged: (value) => productController.filterProduct(value),
-        decoration: InputDecoration(
-            label: AnimatedTextKit(animatedTexts: [
-              TyperAnimatedText(
-                'Buscar producto',
-                speed: const Duration(milliseconds: 100),
-              )
-            ]),
-            focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.white),
-                borderRadius: BorderRadius.circular(16.0)),
-            enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.white),
-                borderRadius: BorderRadius.circular(16.0)),
-            prefixIcon: const Icon(
-              Icons.search_rounded,
-              color: Colors.white,
-            )),
-        controller: searchController,
-        style: const TextStyle(color: Colors.white),
-      ),
+      KeyboardVisibilityBuilder(builder: (context, isVisible) {
+        iskeyboardVisible = isVisible;
+        return TextFormField(
+          autofocus: false,
+          onChanged: (value) => productController.filterProduct(value),
+          decoration: InputDecoration(
+              label: AnimatedTextKit(animatedTexts: [
+                TyperAnimatedText(
+                  'Buscar producto',
+                  speed: const Duration(milliseconds: 100),
+                )
+              ]),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.close_rounded),
+                onPressed: () {
+                  searchController.clear();
+                  productController.filterProduct('');
+                },
+                color: Colors.white,
+              ),
+              prefixIcon: const Icon(
+                Icons.search_rounded,
+                color: Colors.white,
+              )),
+          controller: searchController,
+          style: TextStyleCustom.kanitFont(size: 16),
+        );
+      }),
       const SizedBox(
         height: 20,
       ),
@@ -110,15 +149,14 @@ class ProductList extends StatelessWidget {
 
 class ListProduct extends StatelessWidget {
   const ListProduct({
-    Key? key,
+    super.key,
     required this.productController,
-  }) : super(key: key);
+  });
 
   final ProductController productController;
 
   @override
   Widget build(BuildContext context) {
-    print('List products');
     return Expanded(
       child: Obx(() => productController.foundProducts.isEmpty
           ? Column(
@@ -148,16 +186,9 @@ class ListProduct extends StatelessWidget {
                           color: const Color.fromRGBO(3, 4, 94, 0 - 5),
                           child: Container(
                             height: 80,
-                            decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                    colors: [
-                                      Color.fromRGBO(5, 117, 230, 100),
-                                      Color.fromRGBO(2, 27, 121, 100),
-                                    ],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0))),
+                            decoration: ThemeCustom.buildGradiente(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(8.0))),
                             child: ListTile(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16)),
@@ -181,32 +212,25 @@ class ListProduct extends StatelessWidget {
                               ), */
                               title: Text(
                                   productController.foundProducts[index].name,
-                                  style: GoogleFonts.roboto(
-                                      decoration: TextDecoration.none,
-                                      color: Colors.white,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w800)),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyleCustom.kanitFont(
+                                      size: 18, fontWeight: FontWeight.bold)),
                               subtitle: (productController
                                           .foundProducts[index].quantity ==
                                       0)
-                                  ? Text(
-                                      'Producto sin existencia',
-                                      style: TextStyleCustom.regular16(
-                                          color: Colors.redAccent),
-                                    )
+                                  ? Text('Producto sin existencia',
+                                      style: TextStyleCustom.kanitFont(
+                                          color: Colors.cyanAccent))
                                   : Text(
-                                      'Cantidad: ' +
-                                          productController
-                                              .foundProducts[index].quantity
-                                              .toString(),
-                                      style: GoogleFonts.roboto(
-                                          color: Colors.white,
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w400)),
+                                      'Cantidad: ${productController.foundProducts[index].quantity}',
+                                      style: TextStyleCustom.kanitFont(
+                                        size: 16,
+                                        fontWeight: FontWeight.w500,
+                                      )),
                               tileColor: Colors.transparent,
                               trailing: const Icon(
                                 Icons.arrow_circle_right_sharp,
-                                color: ColorCustom.marineBlue,
+                                color: ColorCustom.whiteColor,
                                 size: 25.0,
                               ),
                             ),

@@ -8,10 +8,9 @@ import 'package:app_p16/widgets/theme_custom.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AddProduct extends StatefulWidget {
-  const AddProduct({Key? key}) : super(key: key);
+  const AddProduct({super.key});
 
   @override
   State<AddProduct> createState() => _AddProductState();
@@ -53,10 +52,9 @@ class _AddProductState extends State<AddProduct> {
                 children: [
                   Text(
                     'Agregar Producto',
-                    style: GoogleFonts.roboto(
-                        color: Colors.white,
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold),
+                    style: TextStyleCustom.kanitFont(
+                      size: 25,
+                    ),
                   ),
                   const SizedBox(
                     height: 20.0,
@@ -92,17 +90,18 @@ class _AddProductState extends State<AddProduct> {
                     height: 16.0,
                   ),
                   TextFormField(
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                         label: Text(
                           'Nombre',
+                          style: TextStyleCustom.kanitFont(),
                         ),
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.label,
                           color: Colors.white,
                         )),
                     controller: nameController,
                     keyboardType: TextInputType.name,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyleCustom.kanitFont(),
                     textInputAction: TextInputAction.next,
                     validator: ((value) {
                       if (value == null || value.isEmpty) {
@@ -116,18 +115,17 @@ class _AddProductState extends State<AddProduct> {
                     height: 16.0,
                   ),
                   TextFormField(
-                    decoration: const InputDecoration(
-                        label: Text(
-                          'Precio costo',
-                        ),
-                        prefixIcon: Icon(
+                    decoration: InputDecoration(
+                        label: Text('Precio costo',
+                            style: TextStyleCustom.kanitFont()),
+                        prefixIcon: const Icon(
                           Icons.monetization_on_outlined,
                           color: Colors.white,
                         )),
                     controller: costPriceController,
                     keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.next,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyleCustom.kanitFont(),
                     validator: ((value) {
                       if (value == null || value.isEmpty) {
                         return 'No puede estar vacio';
@@ -140,18 +138,17 @@ class _AddProductState extends State<AddProduct> {
                     height: 16.0,
                   ),
                   TextFormField(
-                    decoration: const InputDecoration(
-                        label: Text(
-                          'Cantidad',
-                        ),
-                        prefixIcon: Icon(
+                    decoration: InputDecoration(
+                        label: Text('Cantidad',
+                            style: TextStyleCustom.kanitFont()),
+                        prefixIcon: const Icon(
                           Icons.numbers_outlined,
                           color: Colors.white,
                         )),
                     controller: quantityController,
                     keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.next,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyleCustom.kanitFont(),
                     validator: ((value) {
                       if (value == null || value.isEmpty) {
                         return 'No puede estar vacio';
@@ -164,18 +161,17 @@ class _AddProductState extends State<AddProduct> {
                     height: 16.0,
                   ),
                   TextFormField(
-                    decoration: const InputDecoration(
-                        label: Text(
-                          'Presentación',
-                        ),
-                        prefixIcon: Icon(
+                    decoration: InputDecoration(
+                        label: Text('Presentación',
+                            style: TextStyleCustom.kanitFont()),
+                        prefixIcon: const Icon(
                           Icons.inventory_2,
                           color: Colors.white,
                         )),
                     controller: categoryController,
                     keyboardType: TextInputType.name,
                     textInputAction: TextInputAction.next,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyleCustom.kanitFont(),
                     validator: ((value) {
                       if (value == null || value.isEmpty) {
                         return 'No puede estar vacio';
@@ -220,8 +216,7 @@ class _AddProductState extends State<AddProduct> {
                             productController.loadingAdd.value
                                 ? 'Agregando'
                                 : 'Agregar',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 20.0),
+                            style: TextStyleCustom.kanitFont(size: 20),
                           ),
                         ))),
                   ),

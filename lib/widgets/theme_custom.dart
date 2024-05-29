@@ -51,7 +51,7 @@ class ThemeCustom {
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
         minimumSize: MaterialStateProperty.all(const Size(50, 80)),
-        textStyle: MaterialStateProperty.all(TextStyleCustom.regular20()),
+        textStyle: MaterialStateProperty.all(TextStyleCustom.kanitFont()),
         backgroundColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.pressed)) {
             return ColorCustom.marineBlue.withOpacity(0.5);
@@ -60,13 +60,14 @@ class ThemeCustom {
         }),
       )));
 
-  static buildGradiente() {
-    return const BoxDecoration(
-        gradient: LinearGradient(colors: [
-          Color(0xFF0575E6),
-          Color(0xFF021B79),
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-        borderRadius: BorderRadius.all(Radius.circular(8.0)));
+  static buildGradiente({BorderRadiusGeometry? borderRadius}) {
+    return BoxDecoration(
+      gradient: const LinearGradient(colors: [
+        Color(0xFF0575E6),
+        Color(0xFF021B79),
+      ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+      borderRadius: borderRadius, /* BorderRadius.all(Radius.circular(8.0)) */
+    );
   }
 }
 
@@ -74,7 +75,7 @@ class ColorCustom {
   ColorCustom._();
 
   static const whiteColor = Colors.white;
-  static const marineBlue = Color.fromRGBO(0, 162, 254, 1);
+  static const marineBlue = Color(0xFF0575E6);
 }
 
 class TextStyleCustom {
@@ -102,5 +103,18 @@ class TextStyleCustom {
       fontWeight: fontWeight,
       color: color ?? ColorCustom.whiteColor,
     );
+  }
+
+  static TextStyle kanitFont({
+    FontWeight? fontWeight,
+    double? size,
+    Color? color = Colors.white,
+    FontStyle? fontStyle,
+  }) {
+    return GoogleFonts.kanit(
+        color: color,
+        fontSize: size,
+        fontWeight: fontWeight,
+        fontStyle: fontStyle);
   }
 }

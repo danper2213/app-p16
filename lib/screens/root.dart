@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Root extends GetWidget {
-  const Root({Key? key}) : super(key: key);
+  const Root({super.key});
 
   @override
   Widget build(BuildContext context) {
+    //print('Entre al build del root');
     return GetBuilder<AuthController>(
       builder: (controller) {
         return SafeArea(

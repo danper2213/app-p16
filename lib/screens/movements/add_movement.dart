@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddMovement extends StatefulWidget {
-  const AddMovement({Key? key, required this.product}) : super(key: key);
+  const AddMovement({super.key, required this.product});
 
   final Product product;
 
@@ -43,7 +43,8 @@ class _AddMovementState extends State<AddMovement> {
         children: [
           Text(
             'Crear moviento',
-            style: TextStyleCustom.regular20(),
+            style: TextStyleCustom.kanitFont(
+                size: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 8,
@@ -56,7 +57,7 @@ class _AddMovementState extends State<AddMovement> {
           ),
           Text(
             'Selecciona el tipo de movimiento',
-            style: TextStyleCustom.regular16(),
+            style: TextStyleCustom.kanitFont(size: 16),
           ),
           GetBuilder<MovementsController>(builder: (controller) {
             return Row(
@@ -74,7 +75,7 @@ class _AddMovementState extends State<AddMovement> {
                     ),
                     title: Text(
                       'Entrada',
-                      style: TextStyleCustom.regular16(),
+                      style: TextStyleCustom.kanitFont(size: 16),
                     ),
                     textColor: Colors.white,
                   ),
@@ -92,7 +93,7 @@ class _AddMovementState extends State<AddMovement> {
                     ),
                     title: Text(
                       'Salida',
-                      style: TextStyleCustom.regular16(),
+                      style: TextStyleCustom.kanitFont(size: 16),
                     ),
                     textColor: Colors.white,
                   ),
@@ -112,14 +113,14 @@ class _AddMovementState extends State<AddMovement> {
             controller: quantityController,
             autofocus: true,
             keyboardType: TextInputType.number,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyleCustom.kanitFont(),
           ),
           const SizedBox(
             height: 4,
           ),
           Text(
             'Stock: ${widget.product.quantity}',
-            style: GoogleFonts.roboto(
+            style: GoogleFonts.kanit(
                 color: Colors.white,
                 fontSize: 14,
                 textStyle: const TextStyle(fontStyle: FontStyle.italic)),
@@ -154,10 +155,10 @@ class _AddMovementState extends State<AddMovement> {
                   movementsController.loadingMovement.value
                       ? 'Cargando'
                       : 'Aceptar',
-                  style: GoogleFonts.roboto(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyleCustom.kanitFont(
+                    size: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 )))),
           ),
           const SizedBox(

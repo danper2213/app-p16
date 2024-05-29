@@ -1,3 +1,4 @@
+import 'package:app_p16/widgets/theme_custom.dart';
 import 'package:flutter/material.dart';
 
 class TextFormFieldCustom extends StatelessWidget {
@@ -6,12 +7,11 @@ class TextFormFieldCustom extends StatelessWidget {
   final TextInputType typeInput;
   final TextEditingController controller;
   const TextFormFieldCustom(
-      {Key? key,
+      {super.key,
       required this.labelText,
       required this.controller,
       required this.icon,
-      required this.typeInput})
-      : super(key: key);
+      required this.typeInput});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class TextFormFieldCustom extends StatelessWidget {
       decoration: InputDecoration(
           label: Text(
             labelText,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyleCustom.kanitFont(),
           ),
           prefixIcon: Icon(
             icon,
@@ -27,6 +27,7 @@ class TextFormFieldCustom extends StatelessWidget {
           )),
       controller: controller,
       keyboardType: typeInput,
+      style: TextStyleCustom.kanitFont(),
     );
   }
 }

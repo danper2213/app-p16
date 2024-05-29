@@ -1,3 +1,4 @@
+import 'package:app_p16/screens/root.dart';
 import 'package:app_p16/screens/signInOut/login.dart';
 
 import 'package:flutter/material.dart';
@@ -44,7 +45,6 @@ class AuthController extends GetxController {
     isSignedIn.value = true;
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
-
       update();
     } catch (e) {
       Get.snackbar('About Login', 'Login message',
@@ -65,7 +65,7 @@ class AuthController extends GetxController {
   void logOut() async {
     try {
       await auth.signOut();
-      update();
+      Get.offAll(() => const Root());
     } catch (e) {
       Get.snackbar('About Login', 'Login message',
           backgroundColor: Colors.redAccent,

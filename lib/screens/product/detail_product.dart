@@ -1,21 +1,21 @@
 import 'package:app_p16/controllers/movements_controller.dart';
 import 'package:app_p16/controllers/product_controller.dart';
 import 'package:app_p16/models/product.dart';
-import 'package:app_p16/screens/home.dart';
 import 'package:app_p16/screens/movements/add_movement.dart';
 import 'package:app_p16/screens/product/edit_product.dart';
+import 'package:app_p16/screens/product/product_register.dart';
+import 'package:app_p16/widgets/shake_transition.dart';
 import 'package:app_p16/widgets/theme_custom.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class DetailProduct extends StatelessWidget {
   final Product product;
-  DetailProduct({Key? key, required this.product}) : super(key: key);
+  DetailProduct({super.key, required this.product});
 
   final productController = Get.put(ProductController());
 
@@ -32,37 +32,33 @@ class DetailProduct extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Material(
-                type: MaterialType.transparency,
-                child: Hero(
-                    tag: product,
+              Hero(
+                  tag: product,
+                  child: Material(
+                    color: Colors.transparent,
                     child: Container(
-                      decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [
-                                Color(0xFF0575E6),
-                                Color(0xFF021B79),
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter),
-                          borderRadius: BorderRadius.only(
+                      decoration: ThemeCustom.buildGradiente(
+                          borderRadius: const BorderRadius.only(
                               bottomRight: Radius.circular(100.0))),
                       width: double.infinity,
-                      height: 350,
+                      height: 330,
                       child: Stack(
                         children: [
                           Positioned(
+                            left: 20,
+                            top: 20,
                             child: GestureDetector(
-                              onTap: (() => Get.offAll(() => const Home())),
+                              onTap: (() => Get.back()),
                               child: const Icon(
                                 Icons.arrow_back,
                                 size: 24,
                               ),
                             ),
-                            left: 20,
-                            top: 20,
                           ),
                           Positioned(
+                            //Edit product
+                            right: 60,
+                            top: 20,
                             //Edit product
                             child: GestureDetector(
                               child: Obx(() {
@@ -81,20 +77,10 @@ class DetailProduct extends StatelessWidget {
                                     !productController.editProduct.value);
                               },
                             ),
-
-                            /* GestureDetector(
-                              onTap: (() => {
-                                    Get.to(() => EditProduct(product: product))
-                                  }),
-                              child: const Icon(
-                                Icons.edit,
-                                size: 24,
-                              ),
-                            ), */
-                            right: 60,
-                            top: 20,
                           ),
                           Positioned(
+                            right: 20,
+                            top: 20,
                             child: GestureDetector(
                               onTap: (() {
                                 showConfirmDelete(context);
@@ -104,44 +90,46 @@ class DetailProduct extends StatelessWidget {
                                 size: 24,
                               ),
                             ),
-                            right: 20,
-                            top: 20,
                           ),
                           Positioned(
-                            child: Text(product.name,
-                                style: GoogleFonts.roboto(
-                                    decoration: TextDecoration.none,
-                                    color: Colors.white,
-                                    fontSize: 25.0,
-                                    fontWeight: FontWeight.w900)),
                             left: 40,
                             top: 70,
+                            child: ShakeTransition(
+                              child: Text(product.name,
+                                  style: TextStyleCustom.kanitFont(
+                                    fontWeight: FontWeight.bold,
+                                    size: 25,
+                                  )),
+                            ),
                           ),
                           Positioned(
+                            left: 70,
+                            top: 110,
                             child: /* Image.network(
                               product.urlImage,
                               fit: BoxFit.contain,
                               width: 250,
                               height: 200,
                             ), */
-                                CachedNetworkImage(
-                              height: 200,
-                              width: 250,
-                              placeholder: (context, url) => Lottie.asset(
-                                'assets/downloading.json',
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.fill,
+                                ShakeTransition(
+                              child: CachedNetworkImage(
+                                fadeInCurve: Curves.easeInCirc,
+                                height: 200,
+                                width: 250,
+                                placeholder: (context, url) => Lottie.asset(
+                                  'assets/downloading.json',
+                                  width: 30,
+                                  height: 30,
+                                  fit: BoxFit.fill,
+                                ),
+                                imageUrl: product.urlImage,
                               ),
-                              imageUrl: product.urlImage,
                             ),
-                            left: 70,
-                            top: 110,
                           ),
                         ],
                       ),
-                    )),
-              ),
+                    ),
+                  )),
               const SizedBox(
                 height: 20,
               ),
@@ -157,30 +145,34 @@ class DetailProduct extends StatelessWidget {
               // ),
 
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ),
                   child: Obx(() {
                     return productController.editProduct.value
                         ? Column(
                             children: [
                               Text(
                                 'Detalle Producto',
-                                style: GoogleFonts.roboto(
-                                    color: Colors.white,
-                                    fontSize: 25.0,
-                                    fontWeight: FontWeight.bold),
+                                style: TextStyleCustom.kanitFont(
+                                  fontWeight: FontWeight.w600,
+                                  size: 25,
+                                ),
                               ),
                               const SizedBox(
-                                height: 15,
+                                height: 10,
                               ),
                               const Divider(
                                 color: Colors.white,
                               ),
                               const SizedBox(
-                                height: 15,
+                                height: 10,
                               ),
-                              DetailBox(product: product),
+                              DetailBox(
+                                  product: product,
+                                  productController: productController),
                               const SizedBox(
-                                height: 30,
+                                height: 20,
                               ),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width,
@@ -202,17 +194,39 @@ class DetailProduct extends StatelessWidget {
                                           context: context,
                                           builder: (context) {
                                             return AddMovement(
-                                                product: product);
+                                              product: product,
+                                            );
                                           });
                                       //Get.to(() => AddMovement(product: product));
                                     }),
                                     icon: const Icon(Icons.move_down_rounded),
                                     label: Text(
                                       'Realizar Movimiento',
-                                      style: GoogleFonts.roboto(
-                                          color: Colors.white,
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold),
+                                      style: TextStyleCustom.kanitFont(
+                                        size: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )),
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                height: 50,
+                                child: ElevatedButton.icon(
+                                    onPressed: (() {
+                                      Get.to(
+                                        () => ProductoHistory(product: product),
+                                      );
+                                    }),
+                                    icon: const Icon(Icons.history),
+                                    label: Text(
+                                      'Consultar Historico',
+                                      style: TextStyleCustom.kanitFont(
+                                        size: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     )),
                               )
                             ],
@@ -270,20 +284,18 @@ class DetailProduct extends StatelessWidget {
 
 class DetailBox extends StatelessWidget {
   final Product product;
-  const DetailBox({Key? key, required this.product}) : super(key: key);
+  final ProductController productController;
+  const DetailBox(
+      {super.key, required this.product, required this.productController});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 80,
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color.fromRGBO(5, 117, 230, 100),
-              Color.fromRGBO(2, 27, 121, 100),
-            ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-            borderRadius: BorderRadius.all(Radius.circular(8.0))),
+        height: MediaQuery.of(context).size.height * 0.13,
+        decoration: ThemeCustom.buildGradiente(
+            borderRadius: const BorderRadius.all(Radius.circular(8.0))),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -291,15 +303,15 @@ class DetailBox extends StatelessWidget {
                 children: [
                   Text(
                     product.category,
-                    style: GoogleFonts.roboto(
+                    style: GoogleFonts.kanit(
                       color: Colors.white,
-                      fontSize: 23,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    'Presentacion',
-                    style: GoogleFonts.roboto(
+                    'Presentación',
+                    style: GoogleFonts.kanit(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.w300),
@@ -314,15 +326,16 @@ class DetailBox extends StatelessWidget {
                 children: [
                   Text(
                     product.quantity.toString(),
-                    style: GoogleFonts.roboto(
+                    style: GoogleFonts.kanit(
+                      height: 0,
                       color: Colors.white,
-                      fontSize: 23,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     'Stock',
-                    style: GoogleFonts.roboto(
+                    style: GoogleFonts.kanit(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.w300),
@@ -336,16 +349,16 @@ class DetailBox extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    '\$ ${product.costPrice}',
-                    style: GoogleFonts.roboto(
+                    '\$ ${productController.convertToThousand(product.costPrice)}',
+                    style: GoogleFonts.kanit(
                       color: Colors.white,
-                      fontSize: 23,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     'Precio costo',
-                    style: GoogleFonts.roboto(
+                    style: GoogleFonts.kanit(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.w300),
