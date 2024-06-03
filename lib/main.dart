@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'controllers/home_binding.dart';
 
 void main() async {
@@ -31,10 +31,6 @@ class MyApp extends StatelessWidget {
       const SystemUiOverlayStyle(statusBarColor: ThemeCustom.primarySwatch),
     );
     return GetMaterialApp(
-      localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
-      supportedLocales: const [
-        Locale('es'),
-      ],
       debugShowCheckedModeBanner: false,
       theme: ThemeCustom.blueTheme,
       initialBinding: BindingControllers(),

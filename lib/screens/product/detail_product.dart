@@ -291,7 +291,7 @@ class DetailBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.13,
+        height: MediaQuery.of(context).size.height * 0.12,
         decoration: ThemeCustom.buildGradiente(
             borderRadius: const BorderRadius.all(Radius.circular(8.0))),
         child: Padding(
@@ -305,7 +305,7 @@ class DetailBox extends StatelessWidget {
                     product.category,
                     style: GoogleFonts.kanit(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -313,7 +313,7 @@ class DetailBox extends StatelessWidget {
                     'Presentación',
                     style: GoogleFonts.kanit(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w300),
                   )
                 ],
@@ -329,7 +329,7 @@ class DetailBox extends StatelessWidget {
                     style: GoogleFonts.kanit(
                       height: 0,
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -337,7 +337,7 @@ class DetailBox extends StatelessWidget {
                     'Stock',
                     style: GoogleFonts.kanit(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w300),
                   )
                 ],
@@ -352,7 +352,7 @@ class DetailBox extends StatelessWidget {
                     '\$ ${productController.convertToThousand(product.costPrice)}',
                     style: GoogleFonts.kanit(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -360,7 +360,7 @@ class DetailBox extends StatelessWidget {
                     'Precio costo',
                     style: GoogleFonts.kanit(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w300),
                   )
                 ],

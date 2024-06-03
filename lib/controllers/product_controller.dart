@@ -19,6 +19,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path/path.dart' as path;
+import 'package:printing/printing.dart';
 
 class ProductController extends GetxController {
   final productsList = <Product>[].obs;
@@ -223,9 +224,15 @@ class ProductController extends GetxController {
         },
       ),
     );
+
+    /*
     Directory? tempDir = await getExternalStorageDirectory();
     String? tempPath = tempDir?.path;
     final file = File("$tempPath/productos.pdf");
-    file.writeAsBytesSync(await pdf.save());
+    file.writeAsBytesSync(await pdf.save());*/
+
+    Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async => pdf.save(),
+    );
   }
 }

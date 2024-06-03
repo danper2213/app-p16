@@ -35,21 +35,26 @@ class _HomeState extends State<Home> {
                   onPressed: () => {controller.authController.logOut()},
                 ),
                 IconButton(
-                    icon: const Icon(Icons.file_download),
-                    onPressed: () =>
-                        controller.saveImage(controller.foundProducts)
-                    //{controller.productListToPdf(controller.foundProducts)},
-                    )
+                  icon: const Icon(Icons.file_download),
+                  onPressed: () =>
+                      //controller.saveImage(controller.foundProducts)
+                      {controller.productListToPdf(controller.foundProducts)},
+                )
               ],
             ),
             body: Padding(
               padding: const EdgeInsets.only(top: 4, right: 16, left: 16),
-              child: Expanded(
-                child:
-                    IndexedStack(index: controller.tabIndex, children: const [
-                  ProductList(),
-                  Movements(),
-                ]),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: IndexedStack(
+                        index: controller.tabIndex,
+                        children: const [
+                          ProductList(),
+                          Movements(),
+                        ]),
+                  ),
+                ],
               ),
             ),
             floatingActionButtonLocation:

@@ -65,7 +65,7 @@ class _AddMovementState extends State<AddMovement> {
                 Expanded(
                   child: ListTile(
                     leading: Radio(
-                      fillColor: MaterialStateColor.resolveWith(
+                      fillColor: WidgetStateColor.resolveWith(
                           (states) => const Color.fromRGBO(0, 150, 199, 1)),
                       groupValue: controller.selectedType,
                       value: controller.types[0],
@@ -83,7 +83,7 @@ class _AddMovementState extends State<AddMovement> {
                 Expanded(
                   child: ListTile(
                     leading: Radio(
-                      fillColor: MaterialStateColor.resolveWith(
+                      fillColor: WidgetStateColor.resolveWith(
                           (states) => const Color.fromRGBO(0, 150, 199, 1)),
                       groupValue: controller.selectedType,
                       value: controller.types[1],

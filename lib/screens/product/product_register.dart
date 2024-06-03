@@ -45,7 +45,7 @@ class _ProductoHistoryState extends State<ProductoHistory> {
             DataCell(Text(m.createdBy)),
             DataCell(Text(m.createdDate)),
           ],
-          color: MaterialStateProperty.resolveWith((states) => i % 2 == 0
+          color: WidgetStateProperty.resolveWith((states) => i % 2 == 0
               ? ThemeCustom.primarySwatch.shade600
               : ThemeCustom.primarySwatch.shade800)));
     }
@@ -143,7 +143,7 @@ class _ProductoHistoryState extends State<ProductoHistory> {
                         return ElevatedButton.icon(
                             style: ButtonStyle(
                               minimumSize:
-                                  MaterialStateProperty.all(const Size(35, 35)),
+                                  WidgetStateProperty.all(const Size(35, 35)),
                             ),
                             onPressed: (movementsController
                                         .dateRegisterFinal.isEmpty &&
@@ -200,7 +200,7 @@ class _ProductoHistoryState extends State<ProductoHistory> {
                                           //horizontalMargin: 0,
                                           columnSpacing: 30.0,
                                           headingRowColor:
-                                              MaterialStateProperty.resolveWith(
+                                              WidgetStateProperty.resolveWith(
                                             (states) => ColorCustom.marineBlue,
                                           ),
                                           border: TableBorder.all(

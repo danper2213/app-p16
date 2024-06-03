@@ -50,10 +50,10 @@ class ThemeCustom {
           )),
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-        minimumSize: MaterialStateProperty.all(const Size(50, 80)),
-        textStyle: MaterialStateProperty.all(TextStyleCustom.kanitFont()),
-        backgroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.pressed)) {
+        minimumSize: WidgetStateProperty.all(const Size(50, 80)),
+        textStyle: WidgetStateProperty.all(TextStyleCustom.kanitFont()),
+        backgroundColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.pressed)) {
             return ColorCustom.marineBlue.withOpacity(0.5);
           }
           return ColorCustom.marineBlue;

@@ -53,7 +53,7 @@ class _ProductListState extends State<ProductList> {
       ),
       Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 9.0),
-        height: MediaQuery.of(context).size.height * 0.10,
+        height: MediaQuery.of(context).size.height * 0.12,
         decoration: ThemeCustom.buildGradiente(
             borderRadius: const BorderRadius.all(Radius.circular(8.0))),
         child: Row(
