@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:app_p16/controllers/product_controller.dart';
 import 'package:app_p16/screens/product/detail_product.dart';
+import 'package:app_p16/widgets/card_custom.dart';
 import 'package:app_p16/widgets/theme_custom.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -33,19 +34,28 @@ class _ProductListState extends State<ProductList> {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '¡Hola, ${productController.authController.userProfile!.displayName!.toString()}!',
-            style: TextStyleCustom.kanitFont(
-              fontWeight: FontWeight.bold,
-              size: 18,
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                 '¡Hola, ${productController.authController.userProfile!.displayName!.toString()}!',
+                style: TextStyleCustom.kanitFont(
+                  fontWeight: FontWeight.w900,
+                  size: 18,
+                ),
+              ),
+              Text(
+                'Fecha: ${productController.getDateFormat()}',
+                style: TextStyleCustom.kanitFont(
+                  fontWeight: FontWeight.w400,
+                  size: 16,
+                ),
+              )
+            ],
           ),
-          Text(
-            'Fecha: ${productController.getDateFormat()}',
-            style: TextStyleCustom.kanitFont(
-              size: 18,
-            ),
-          )
+          
+          
+         
         ],
       ),
       const SizedBox(
@@ -89,10 +99,10 @@ class _ProductListState extends State<ProductList> {
         ),
       ),
       const SizedBox(
-        height: 20,
+        height: 16,
       ),
       SizedBox(
-        height: 20,
+        height: 30,
         child: DefaultTextStyle(
           style: TextStyleCustom.kanitFont(
             size: 16,
@@ -108,7 +118,7 @@ class _ProductListState extends State<ProductList> {
         ),
       ),
       const SizedBox(
-        height: 20,
+        height: 16,
       ),
       KeyboardVisibilityBuilder(builder: (context, isVisible) {
         iskeyboardVisible = isVisible;
@@ -182,7 +192,8 @@ class ListProduct extends StatelessWidget {
                       type: MaterialType.transparency,
                       child: Hero(
                         tag: productController.foundProducts[index],
-                        child: Card(
+                        child: ProductCustom(product: productController.foundProducts[index]), 
+                        /* Card(
                           color: const Color.fromRGBO(3, 4, 94, 0 - 5),
                           child: Container(
                             height: 80,
@@ -235,7 +246,7 @@ class ListProduct extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
+                        ),*/
                       ),
                     ),
                   ),

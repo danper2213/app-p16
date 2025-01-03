@@ -6,7 +6,6 @@ import 'package:app_p16/screens/product/products_list.dart';
 import 'package:app_p16/widgets/theme_custom.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
@@ -57,17 +56,16 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Get.to(() => const AddProduct());
+              },
+              backgroundColor: ThemeCustom.primarySwatch,
+              elevation: 10,
+              child: const Icon(Icons.add),
+            ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
-            floatingActionButton:
-                KeyboardVisibilityBuilder(builder: (ctx, isVisible) {
-              return !isVisible
-                  ? FloatingActionButton(
-                      child: const Icon(Icons.add),
-                      onPressed: () => Get.to(() => const AddProduct()),
-                    )
-                  : Container();
-            }),
             bottomNavigationBar: BottomAppBar(
               shape: const CircularNotchedRectangle(),
               color: ColorCustom.marineBlue.withAlpha(255),
@@ -93,7 +91,8 @@ class _HomeState extends State<Home> {
   }
 }
 
-_bottonNavigationBarItem({IconData? icon, String? label}) {
+BottomNavigationBarItem _bottonNavigationBarItem(
+    {IconData? icon, String? label}) {
   return BottomNavigationBarItem(
     icon: Icon(icon),
     label: label,
